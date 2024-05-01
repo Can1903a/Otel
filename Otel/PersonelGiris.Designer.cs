@@ -28,60 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.PictureBox pictureboxGeri;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PersonelGiris));
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.PTCtxt = new System.Windows.Forms.TextBox();
+            this.Psifretxt = new System.Windows.Forms.TextBox();
+            this.btnPersonel = new System.Windows.Forms.Button();
+            pictureboxGeri = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(pictureboxGeri)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // pictureboxGeri
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(81, 65);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            pictureboxGeri.Image = ((System.Drawing.Image)(resources.GetObject("pictureboxGeri.Image")));
+            pictureboxGeri.Location = new System.Drawing.Point(12, 12);
+            pictureboxGeri.Name = "pictureboxGeri";
+            pictureboxGeri.Size = new System.Drawing.Size(68, 65);
+            pictureboxGeri.TabIndex = 1;
+            pictureboxGeri.TabStop = false;
             // 
-            // textBox1
+            // PTCtxt
             // 
-            this.textBox1.Location = new System.Drawing.Point(177, 125);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
+            this.PTCtxt.Location = new System.Drawing.Point(318, 121);
+            this.PTCtxt.Name = "PTCtxt";
+            this.PTCtxt.Size = new System.Drawing.Size(100, 20);
+            this.PTCtxt.TabIndex = 2;
             // 
-            // textBox2
+            // Psifretxt
             // 
-            this.textBox2.Location = new System.Drawing.Point(177, 176);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 1;
+            this.Psifretxt.Location = new System.Drawing.Point(318, 191);
+            this.Psifretxt.Name = "Psifretxt";
+            this.Psifretxt.Size = new System.Drawing.Size(100, 20);
+            this.Psifretxt.TabIndex = 2;
             // 
-            // button1
+            // btnPersonel
             // 
-            this.button1.Location = new System.Drawing.Point(177, 237);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnPersonel.Location = new System.Drawing.Point(318, 266);
+            this.btnPersonel.Name = "btnPersonel";
+            this.btnPersonel.Size = new System.Drawing.Size(100, 23);
+            this.btnPersonel.TabIndex = 3;
+            this.btnPersonel.Text = "button1";
+            this.btnPersonel.UseVisualStyleBackColor = true;
+            this.btnPersonel.Click += new System.EventHandler(this.btnPersonel_Click);
             // 
             // PersonelGiris
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 370);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.pictureBox1);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnPersonel);
+            this.Controls.Add(this.Psifretxt);
+            this.Controls.Add(this.PTCtxt);
+            this.Controls.Add(pictureboxGeri);
             this.Name = "PersonelGiris";
             this.Text = "PersonelGiris";
             this.Load += new System.EventHandler(this.PersonelGiris_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(pictureboxGeri)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -89,9 +90,8 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox PTCtxt;
+        private System.Windows.Forms.TextBox Psifretxt;
+        private System.Windows.Forms.Button btnPersonel;
     }
 }

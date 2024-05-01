@@ -31,7 +31,7 @@ namespace Otel
         private void BtnGiris_Click(object sender, EventArgs e)
         {
             // Giris formunu aç
-            MusteriGiris musterigiris = new MusteriGiris();
+            MusteriGiris musterigiris = new MusteriGiris(baglanti);
             musterigiris.Show();
             this.Hide();
         }
@@ -39,7 +39,7 @@ namespace Otel
         private void BtnKayit_Click(object sender, EventArgs e)
         {
             // Kayit formunu aç
-            MusteriKayit musterikayit = new MusteriKayit();
+            MusteriKayit musterikayit = new MusteriKayit(baglanti);
             musterikayit.Show();
             this.Hide();
         }
@@ -55,7 +55,7 @@ namespace Otel
         private void BtnPersonel_Click(object sender, EventArgs e)
         {
             // Personel Giris formunu aç
-            PersonelGiris personelgiris = new PersonelGiris();
+            PersonelGiris personelgiris = new PersonelGiris(baglanti);
             personelgiris.Show();
             this.Hide();
         }

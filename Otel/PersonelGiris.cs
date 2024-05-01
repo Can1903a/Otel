@@ -13,17 +13,15 @@ namespace Otel
 {
     public partial class PersonelGiris : Form
     {
-        private SqlConnection baglanti;
-
-        public PersonelGiris()
-        {
-            InitializeComponent();
-        }
+        private SqlConnection connection;
 
         public PersonelGiris(SqlConnection baglanti)
         {
-            this.baglanti = baglanti;
+            InitializeComponent();
+            string connectionString = "Data Source=DESKTOP-CJ8MO5Q;Initial Catalog=OtelDB;Integrated Security=True";
+            connection = new SqlConnection(connectionString);
         }
+
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -34,6 +32,51 @@ namespace Otel
 
         private void PersonelGiris_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnPersonel_Click(object sender, EventArgs e)
+        {
+            string personelTC = PTCtxt.Text;
+            string sifre = Psifretxt.Text;
+
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand("SELECT PersonelTC,Sifre FROM Personel WHERE PersonelTC = @PersonelTC AND Sifre = @Sifre", connection))
+                {
+                    cmd.Parameters.AddWithValue("@PersonelTC", personelTC);
+                    cmd.Parameters.AddWithValue("@Sifre", sifre);
+
+                    connection.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    // Okuma işlemleri
+                    if (reader.Read()) // Okuyucu bir satır okuyabilirse
+                    {
+                        // Giriş başarılıysa ana formu aç
+                        Anasayfa anaForm = new Anasayfa();
+                        anaForm.Show();
+                        this.Hide(); // Personel giriş formunu gizle
+                    }
+                    else
+                    {
+                        MessageBox.Show("TC Kimlik Numarası veya şifre yanlış!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // Kullanıcı adı ve şifre alanlarını temizle
+                        PTCtxt.Text = "";
+                        Psifretxt.Text = "";
+                    }
+
+                    reader.Close(); // Okuyucuyu kapat
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close(); // Bağlantıyı her durumda kapatın
+            }
 
         }
     }

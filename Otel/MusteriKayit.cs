@@ -13,21 +13,18 @@ namespace Otel
 {
     public partial class MusteriKayit : Form
     {
-        private SqlConnection baglanti;
-
-        public MusteriKayit()
-        {
-            InitializeComponent();
-        }
+        private SqlConnection connection;
 
         public MusteriKayit(SqlConnection baglanti)
         {
-            this.baglanti = baglanti;
+            InitializeComponent();
+            string connectionString = "Data Source=DESKTOP-CJ8MO5Q;Initial Catalog=OtelDB;Integrated Security=True";
+            connection = new SqlConnection(connectionString);
         }
 
         private void MusteriKayit_Load(object sender, EventArgs e)
         {
-
+            // Form yüklendiğinde yapılacak işlemler buraya yazılabilir
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -35,6 +32,63 @@ namespace Otel
             Anasayfa anaSayfa = new Anasayfa();
             anaSayfa.Show();
             this.Close();
+        }
+
+
+        private void Temizle()
+        {
+            // TextBox kontrolündeki metinleri temizle
+            txtAd.Clear();
+            txtSoyad.Clear();
+            txtTC.Clear();
+            txtEmail.Clear();
+            txtSifre.Clear();
+            txtTelefon.Clear();
+            txtAdres.Clear();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnKaydet_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                connection.Open();
+
+                // Müşteri bilgilerini veritabanına ekleme sorgusu
+                string sorgu = "INSERT INTO Musteriler (Ad, Soyad, MusteriTC, Email, Sifre, Telefon, Adres) VALUES (@Ad, @Soyad, @MusteriTC, @Email, @Sifre, @Telefon, @Adres)";
+                SqlCommand komut = new SqlCommand(sorgu, connection);
+                komut.Parameters.AddWithValue("@Ad", txtAd.Text);
+                komut.Parameters.AddWithValue("@Soyad", txtSoyad.Text);
+                komut.Parameters.AddWithValue("@MusteriTC", txtTC.Text);
+                komut.Parameters.AddWithValue("@Email", txtEmail.Text);
+                komut.Parameters.AddWithValue("@Sifre", txtSifre.Text);
+                komut.Parameters.AddWithValue("@Telefon", txtTelefon.Text);
+                komut.Parameters.AddWithValue("@Adres", txtAdres.Text);
+
+                int etkilenenSatirSayisi = komut.ExecuteNonQuery();
+                if (etkilenenSatirSayisi > 0)
+                {
+                    MessageBox.Show("Müşteri başarıyla kaydedildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Kayıt işlemi başarılıysa, formu temizle
+                    Temizle();
+                }
+                else
+                {
+                    MessageBox.Show("Müşteri kaydedilirken bir hata oluştu.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close(); // Bağlantıyı kapat
+            }
         }
     }
 }

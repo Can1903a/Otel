@@ -14,15 +14,13 @@ namespace Otel
 {
     public partial class YoneticiGiris : Form
     {
-        private SqlConnection baglanti;
+        private SqlConnection connection;
 
         public YoneticiGiris(SqlConnection baglanti)
         {
-            this.baglanti = baglanti;
-        }
-        public YoneticiGiris()
-        {
             InitializeComponent();
+            string connectionString = "Data Source=DESKTOP-CJ8MO5Q;Initial Catalog=OtelDB;Integrated Security=True";
+            connection = new SqlConnection(connectionString);
         }
 
 
@@ -36,6 +34,29 @@ namespace Otel
             Anasayfa anaSayfa = new Anasayfa();
             anaSayfa.Show();
             this.Close();
+        }
+
+        private void btnYonetici_Click(object sender, EventArgs e)
+        {
+            string adminKullaniciAdi = "admin";
+            string adminSifre = "123";
+
+            string girilenKullaniciAdi = txtKullaniciAdi.Text;
+            string girilenSifre = txtSifre.Text;
+
+            if (girilenKullaniciAdi == adminKullaniciAdi && girilenSifre == adminSifre)
+            {
+                YoneticiForm yoneticiForm = new YoneticiForm(connection);
+                yoneticiForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Kullanıcı adı veya şifre hatalı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtKullaniciAdi.Text = "";
+                txtSifre.Text = "";
+                txtKullaniciAdi.Focus();
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Otel
 
             try
             {
-                using (SqlCommand cmd = new SqlCommand("SELECT MusteriTC,Sifre FROM Musteriler WHERE MusteriTC = @MusteriTC AND Sifre = @Sifre", connection))
+                using (SqlCommand cmd = new SqlCommand("SELECT MusteriTC, MusteriID FROM Musteriler WHERE MusteriTC = @MusteriTC AND Sifre = @Sifre", connection))
                 {
                     cmd.Parameters.AddWithValue("@MusteriTC", musteriTC);
                     cmd.Parameters.AddWithValue("@Sifre", sifre);
@@ -50,23 +50,21 @@ namespace Otel
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    // Okuma işlemleri
-                    if (reader.Read()) // Okuyucu bir satır okuyabilirse
+                    if (reader.Read())
                     {
-                        // Giriş başarılıysa ana formu aç
-                        Anasayfa anaForm = new Anasayfa();
-                        anaForm.Show();
-                        this.Hide(); // Personel giriş formunu gizle
+                        int musteriID = reader.GetInt32(reader.GetOrdinal("MusteriID"));
+                        MusteriForm mform = new MusteriForm(connection,musteriID);
+                        mform.Show();
+                        this.Hide();
                     }
                     else
                     {
                         MessageBox.Show("TC Kimlik Numarası veya şifre yanlış!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        // Kullanıcı adı ve şifre alanlarını temizle
                         txtTC.Text = "";
                         txtSifre.Text = "";
                     }
 
-                    reader.Close(); // Okuyucuyu kapat
+                    reader.Close();
                 }
             }
             catch (Exception ex)
@@ -75,9 +73,9 @@ namespace Otel
             }
             finally
             {
-                connection.Close(); // Bağlantıyı her durumda kapatın
+                connection.Close();
             }
-
         }
+
     }
 }

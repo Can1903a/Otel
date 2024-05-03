@@ -47,7 +47,7 @@ namespace Otel
         private void BtnYonetici_Click(object sender, EventArgs e)
         {
             // Yönetici Giris formunu aç
-            YoneticiGiris yoneticigiris = new YoneticiGiris();
+            YoneticiGiris yoneticigiris = new YoneticiGiris(baglanti);
             yoneticigiris.Show();
             this.Hide();
         }

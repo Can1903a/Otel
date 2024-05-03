@@ -138,12 +138,48 @@ namespace Otel
             OdaninOzellikleriniYukle(odaID);
 
         }
+        private bool OdaDoluMu(int odaID)
+        {
+            bool odaDolu = false;
+            try
+            {
+                connection.Open();
+                string sorgu = "SELECT Durum FROM Odalar WHERE OdaID = @OdaID";
+                SqlCommand komut = new SqlCommand(sorgu, connection);
+                komut.Parameters.AddWithValue("@OdaID", odaID);
+                SqlDataReader reader = komut.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    string durum = reader["Durum"].ToString();
+                    if (durum == "Dolu")
+                    {
+                        odaDolu = true;
+                    }
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Oda durumu kontrol edilirken bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return odaDolu;
+        }
 
         private void btnRezervasyon_Click(object sender, EventArgs e)
         {
             if (secilenOdaID == 0)
             {
                 MessageBox.Show("Lütfen bir oda seçin!", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (OdaDoluMu(secilenOdaID))
+            {
+                MessageBox.Show("Seçilen oda dolu olduğu için rezervasyon yapılamaz.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

@@ -33,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +75,12 @@
     </Compile>
     <Compile Include="MusteriKayit.Designer.cs">
       <DependentUpon>MusteriKayit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PersonelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PersonelForm.Designer.cs">
+      <DependentUpon>PersonelForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PersonelGiris.cs">
       <SubType>Form</SubType>
@@ -114,6 +126,9 @@
     <EmbeddedResource Include="MusteriKayit.resx">
       <DependentUpon>MusteriKayit.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PersonelForm.resx">
+      <DependentUpon>PersonelForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PersonelGiris.resx">
       <DependentUpon>PersonelGiris.cs</DependentUpon>
     </EmbeddedResource>
@@ -139,6 +154,7 @@
     <EmbeddedResource Include="YoneticiGiris.resx">
       <DependentUpon>YoneticiGiris.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -157,6 +173,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\kirmizi_yatak3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hotel-svgrepo-com.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\photo-camera-svgrepo-com.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sandwich-svgrepo-com.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cleaning-sign-caution-warning-wet-floor-svgrepo-com.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

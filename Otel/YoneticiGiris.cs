@@ -58,5 +58,9 @@ namespace Otel
                 txtKullaniciAdi.Focus();
             }
         }
+
+        private void YoneticiGiris_FormClosing(object sender, FormClosingEventArgs e)
+        {
+        }
     }
 }

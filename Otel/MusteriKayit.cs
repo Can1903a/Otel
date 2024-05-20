@@ -54,6 +54,12 @@ namespace Otel
 
         private void btnKaydet_Click(object sender, EventArgs e)
         {
+            if (txtTC.Text.Length != 11)
+            {
+                MessageBox.Show("TC Kimlik Numarası yanlış!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTC.Text = "";
+                return;
+            }
             try
             {
                 connection.Open();
@@ -89,6 +95,10 @@ namespace Otel
             {
                 connection.Close(); // Bağlantıyı kapat
             }
+        }
+
+        private void MusteriKayit_FormClosing(object sender, FormClosingEventArgs e)
+        {
         }
     }
 }

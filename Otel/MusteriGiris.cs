@@ -39,7 +39,13 @@ namespace Otel
         {
             string musteriTC = txtTC.Text;
             string sifre = txtSifre.Text;
-
+            if (txtTC.Text.Length != 11)
+            {
+                MessageBox.Show("TC Kimlik Numarası yanlış!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTC.Text = "";
+                txtSifre.Text = "";
+                return;
+            }
             try
             {
                 using (SqlCommand cmd = new SqlCommand("SELECT MusteriTC, MusteriID FROM Musteriler WHERE MusteriTC = @MusteriTC AND Sifre = @Sifre", connection))
@@ -50,13 +56,15 @@ namespace Otel
                     connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (reader.Read())
+                    if (reader.Read() && txtTC.Text.Length == 11)
                     {
                         int musteriID = reader.GetInt32(reader.GetOrdinal("MusteriID"));
-                        MusteriForm mform = new MusteriForm(connection,musteriID);
+                        MusteriForm mform = new MusteriForm(musteriID);
                         mform.Show();
+
                         this.Hide();
                     }
+
                     else
                     {
                         MessageBox.Show("TC Kimlik Numarası veya şifre yanlış!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -77,5 +85,8 @@ namespace Otel
             }
         }
 
+        private void MusteriGiris_FormClosing(object sender, FormClosingEventArgs e)
+        {
+        }
     }
 }

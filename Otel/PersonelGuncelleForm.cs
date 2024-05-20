@@ -83,6 +83,10 @@ namespace Otel
             yonetici.Show();
             this.Close();
         }
+
+        private void PersonelGuncelleForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+        }
     }
     }
 

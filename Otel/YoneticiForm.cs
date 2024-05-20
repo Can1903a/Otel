@@ -25,8 +25,118 @@ namespace Otel
         private void YoneticiForm_Load(object sender, EventArgs e)
         {
             PersonelBilgileriniYukle();
+            GelirleriGoruntule();
+            GelirGiderHesapla();
+            GiderleriGoruntule();
         }
 
+        private void GiderleriGoruntule()
+        {
+            try
+            {
+                connection.Open();
+                string sorgu = "SELECT * FROM Gider";
+                SqlCommand komut = new SqlCommand(sorgu, connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(komut);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                dataGridViewGider.DataSource = dataTable;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gelirleri görüntülerken bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        private void GelirleriGoruntule()
+        {
+            try
+            {
+                connection.Open();
+                string sorgu = "SELECT * FROM Gelir";
+                SqlCommand komut = new SqlCommand(sorgu, connection);
+                SqlDataAdapter adapter = new SqlDataAdapter(komut);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                dataGridViewGelir.DataSource = dataTable;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gelirleri görüntülerken bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        private void GiderEkle(string aciklama, decimal tutar, int? personelID)
+        {
+            try
+            {
+                connection.Open();
+                string sorgu = "INSERT INTO Gider (Aciklama, Tutar, Tarih, PersonelID) VALUES (@Aciklama, @Tutar, @Tarih, @PersonelID)";
+                SqlCommand komut = new SqlCommand(sorgu, connection);
+                komut.Parameters.AddWithValue("@Aciklama", aciklama);
+                komut.Parameters.AddWithValue("@Tutar", tutar);
+                komut.Parameters.AddWithValue("@Tarih", DateTime.Now);
+                if (personelID.HasValue)
+                {
+                    komut.Parameters.AddWithValue("@PersonelID", personelID);
+                }
+                else
+                {
+                    komut.Parameters.AddWithValue("@PersonelID", DBNull.Value);
+                }
+                komut.ExecuteNonQuery();
+                MessageBox.Show("Gider başarıyla eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gider eklenirken bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        private void GelirGiderHesapla()
+        {
+            try
+            {
+                connection.Open();
+
+                // Gelir hesaplama
+                string gelirSorgu = "SELECT SUM(Tutar) FROM Gelir";
+                SqlCommand gelirKomut = new SqlCommand(gelirSorgu, connection);
+                object gelirObj = gelirKomut.ExecuteScalar();
+                decimal gelir = gelirObj != DBNull.Value ? Convert.ToDecimal(gelirObj) : 0;
+
+                // Gider hesaplama
+                string giderSorgu = "SELECT SUM(Tutar) FROM Gider";
+                SqlCommand giderKomut = new SqlCommand(giderSorgu, connection);
+                object giderObj = giderKomut.ExecuteScalar();
+                decimal gider = giderObj != DBNull.Value ? Convert.ToDecimal(giderObj) : 0;
+
+                // Kar hesaplama
+                decimal kar = gelir - gider;
+
+                lblGelir.Text = "Toplam Gelir: " + gelir.ToString("C2");
+                lblGider.Text = "Toplam Gider: " + gider.ToString("C2");
+                lblKar.Text = "Kar: " + kar.ToString("C2");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gelir-gider hesaplanırken bir hata oluştu: " + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
 
 
         private void PersonelBilgileriniYukle()
@@ -186,6 +296,52 @@ namespace Otel
                 PersonelBilgileriniYukle();
             }
         }
+
+        private void btnGiderEkle_Click(object sender, EventArgs e)
+        {
+            string aciklama = txtGiderAciklama.Text;
+            decimal tutar;
+
+            if (string.IsNullOrEmpty(aciklama))
+            {
+                MessageBox.Show("Lütfen geçerli bir açıklama girin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(txtGiderTutar.Text, out tutar) || tutar <= 0)
+            {
+                MessageBox.Show("Lütfen geçerli bir tutar girin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int? personelID = null;
+
+            if (aciklama.StartsWith("Personel Maaşı - "))
+            {
+                // Gider açıklaması "Personel Maaşı - " ile başlıyorsa, o zaman PersonelID'yi al
+                personelID = Convert.ToInt32(dataGridViewPersonel.CurrentRow.Cells["PersonelID"].Value);
+            }
+
+            GiderEkle(aciklama, tutar, personelID);
+
+            // Ekleme işleminden sonra gider bilgilerini yeniden yükle
+            GelirGiderHesapla();
+        }
+
+        private void dataGridViewPersonel_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dataGridViewPersonel.Rows[e.RowIndex];
+                int personelID = Convert.ToInt32(selectedRow.Cells["PersonelID"].Value);
+                string adSoyad = selectedRow.Cells["Ad"].Value.ToString() + " " + selectedRow.Cells["Soyad"].Value.ToString();
+
+                // Herhangi bir hücreye tıkladığında, seçilen personele gider eklemeyi sağlar
+                txtGiderAciklama.Text = "Personel Maaşı - " + adSoyad;
+                txtGiderTutar.Text = ""; // Tutarı kullanıcıya girmesi için boşalt
+            }
+        }
+
     }
 
 }

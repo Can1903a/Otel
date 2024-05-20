@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.PictureBox pictureboxGeri;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Rezervasyon));
             this.lblKat = new System.Windows.Forms.Label();
             this.lblDurum = new System.Windows.Forms.Label();
             this.lblUcret = new System.Windows.Forms.Label();
@@ -39,7 +41,19 @@
             this.dateTimePickerCikisTarihi = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            pictureboxGeri = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(pictureboxGeri)).BeginInit();
             this.SuspendLayout();
+            // 
+            // pictureboxGeri
+            // 
+            pictureboxGeri.Image = ((System.Drawing.Image)(resources.GetObject("pictureboxGeri.Image")));
+            pictureboxGeri.Location = new System.Drawing.Point(12, 12);
+            pictureboxGeri.Name = "pictureboxGeri";
+            pictureboxGeri.Size = new System.Drawing.Size(68, 65);
+            pictureboxGeri.TabIndex = 11;
+            pictureboxGeri.TabStop = false;
+            pictureboxGeri.Click += new System.EventHandler(this.pictureboxGeri_Click);
             // 
             // lblKat
             // 
@@ -98,20 +112,23 @@
             // 
             // btnRezervasyon
             // 
+            this.btnRezervasyon.BackColor = System.Drawing.Color.SeaShell;
+            this.btnRezervasyon.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnRezervasyon.Location = new System.Drawing.Point(768, 470);
             this.btnRezervasyon.Margin = new System.Windows.Forms.Padding(4);
             this.btnRezervasyon.Name = "btnRezervasyon";
-            this.btnRezervasyon.Size = new System.Drawing.Size(177, 52);
+            this.btnRezervasyon.Size = new System.Drawing.Size(177, 79);
             this.btnRezervasyon.TabIndex = 6;
             this.btnRezervasyon.Text = "Rezervasyon Yap";
-            this.btnRezervasyon.UseVisualStyleBackColor = true;
+            this.btnRezervasyon.UseVisualStyleBackColor = false;
             this.btnRezervasyon.Click += new System.EventHandler(this.btnRezervasyon_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.Location = new System.Drawing.Point(772, 44);
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(772, 38);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(131, 25);
@@ -121,9 +138,12 @@
             // dateTimePickerGirisTarihi
             // 
             this.dateTimePickerGirisTarihi.Location = new System.Drawing.Point(768, 356);
+            this.dateTimePickerGirisTarihi.MinDate = new System.DateTime(2024, 5, 7, 18, 13, 19, 0);
             this.dateTimePickerGirisTarihi.Name = "dateTimePickerGirisTarihi";
             this.dateTimePickerGirisTarihi.Size = new System.Drawing.Size(177, 23);
             this.dateTimePickerGirisTarihi.TabIndex = 8;
+            this.dateTimePickerGirisTarihi.Value = new System.DateTime(2024, 5, 7, 18, 13, 19, 0);
+            this.dateTimePickerGirisTarihi.ValueChanged += new System.EventHandler(this.dateTimePickerGirisTarihi_ValueChanged);
             // 
             // dateTimePickerCikisTarihi
             // 
@@ -131,6 +151,7 @@
             this.dateTimePickerCikisTarihi.Name = "dateTimePickerCikisTarihi";
             this.dateTimePickerCikisTarihi.Size = new System.Drawing.Size(177, 23);
             this.dateTimePickerCikisTarihi.TabIndex = 9;
+            this.dateTimePickerCikisTarihi.ValueChanged += new System.EventHandler(this.dateTimePickerCikisTarihi_ValueChanged);
             // 
             // label2
             // 
@@ -156,7 +177,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 613);
+            this.BackColor = System.Drawing.Color.Honeydew;
+            this.ClientSize = new System.Drawing.Size(984, 611);
+            this.Controls.Add(pictureboxGeri);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dateTimePickerCikisTarihi);
@@ -172,7 +195,9 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Rezervasyon";
             this.Text = "Rezervasyon";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Rezervasyon_FormClosing);
             this.Load += new System.EventHandler(this.Rezervasyon_Load);
+            ((System.ComponentModel.ISupportInitialize)(pictureboxGeri)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
